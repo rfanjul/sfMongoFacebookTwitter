@@ -1,0 +1,56 @@
+security:
+    factories:
+       - "%kernel.root_dir%/../vendor/bundles/FOS/FacebookBundle/Resources/config/security_factories.xml"
+       
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        FOS\UserBundle\Model\UserInterface: sha512
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH, ROLE_FACEBOOK]
+
+    providers:
+        fos_facebook_user:
+           id: fos.facebook.user   # see "Example Custom User Provider using the FOS\UserBundle" chapter further down
+                 
+        in_memory:
+            users:
+                user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        #fos_twitter:
+        #    id: fos_twitter.auth
+        #fos_twitter_user:
+        #    id: fos.twitter.user
+        #fos_userbundle:
+        #    id: fos_user.user_manager
+              
+    firewalls:
+        public:
+             pattern:  /
+             fos_facebook:
+                 app_url: "http://apps.facebook.com/quorra/"
+                 server_url: "http://quorra.es/"
+                 #redirect_uri: "http://quorra.es/"
+                 login_path: /login
+                 check_path: /login_check
+                 default_target_path: /
+                 provider: fos_facebook_user
+             anonymous: true
+             logout:
+                 handlers: ["fos_facebook.logout_handler"]
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false      
+    
+    access_control:
+      - { path: ^/login$,      role: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/register,    role: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/resetting,   role: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/admin/,      role: ROLE_ADMIN }
+      #- { path: ^/facebook/,   role: ROLE_FACEBOOK }
+      - { path: ^/.*,          role: IS_AUTHENTICATED_ANONYMOUSLY }
+      
+
+    role_hierarchy:
+      ROLE_ADMIN:       ROLE_USER
+      ROLE_SUPER_ADMIN: ROLE_ADMIN

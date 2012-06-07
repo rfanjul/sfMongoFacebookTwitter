@@ -1,0 +1,38 @@
+{% extends 'QuorraCoreBundle::base.html.twig' %}
+
+
+{% block body %}
+<div id="social-networks">	
+	<!-- inside a twig template -->
+	{% if app.user %}
+		<p> 
+			<a href="/profile">{{ app.user.username}}</a>
+		</p>
+	{%else%}
+	{{ facebook_login_button({'autologoutlink': true}) }}
+	{% endif%}
+		
+	
+</div>
+<ul>
+	<li>
+		<img src="/images/iphone.png" />
+	</li>
+	<li>
+		<div class="clear h60"></div>
+		<img src="/images/logo.png" />
+		<p>
+			Quorra.es es el portal de icompra/venta de divisas para los pequeños inversones. Da la opción de jugar con pequeñas cantidades de dinero con las que puedas demostrar que este es tu negocio.
+			<br /><br/>
+			 ¿ Como ? Quorra.com te proporcionará un perfil con tu historico, con el que podrás demostrar a los inversores que pueden confiar en ti, para que manejes su dinero. Serás un gran broker.
+
+		</p>
+		<div class="clear h60"></div>
+		<a href="#" class="download-demo">
+			<img src="/images/buttons/demo.png" />
+		</a>
+	</li>			
+</ul>
+{% endblock %}
+
+

@@ -1,0 +1,1 @@
+<?php return unserialize('a:1:{i:0;O:49:"Doctrine\\ODM\\MongoDB\\Mapping\\Annotations\\Document":5:{s:2:"db";N;s:10:"collection";N;s:15:"repositoryClass";N;s:7:"indexes";a:0:{}s:5:"value";N;}}');
